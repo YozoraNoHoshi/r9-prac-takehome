@@ -1,74 +1,85 @@
 import React, { Component } from 'react';
-import { getRandomJokes, get5Jokes, voteJoke } from './api';
+
 import JokeList from './JokeList';
 import styled from 'styled-components';
+import AppContainer from './AppContainer';
 
 const StyledApp = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 90vh;
+  flex-direction: row;
   text-align: center;
+
+  & > div.ranking {
+    width: 50%;
+    margin: 1%;
+  }
+  & > div.random {
+    width: 50%;
+    margin: 1%;
+  }
+`;
+
+const NewJokes = styled.button`
+  width: 50%;
+  margin-top: 2%;
+  padding: 20px;
+  color: white;
+  font-size: 2em;
+  border-radius: 10px;
+  background: steelblue;
+`;
+
+const Loading = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { jokes: {}, top: {}, bottom: {}, loaded: false };
-  }
-  async componentDidMount() {
-    await this.getRandomJokes();
-    await this.get5Jokes();
-    this.setState({ loaded: true });
-  }
-
-  handleClick = async (id, direction) => {
-    let votedJoke = await voteJoke(id, direction);
-    if (!this.state.jokes[votedJoke.id]) await this.get5Jokes();
-    if (this.state.jokes[votedJoke.id]) {
-      this.setState(prev => {
-        return {
-          jokes: {
-            ...prev.jokes,
-            [votedJoke.id]: votedJoke
-          }
-        };
-      });
-    }
-  };
-
-  get5Jokes = async () => {
-    let { top, bottom } = await get5Jokes();
-    this.setState({ top, bottom });
-  };
-
-  getRandomJokes = async () => {
-    let jokes = await getRandomJokes(20);
-    this.setState({ jokes });
-  };
-
   render() {
-    return this.state.loaded ? (
-      <StyledApp>
-        <JokeList
-          label="Top Ranked"
-          jokes={this.state.top}
-          handleClick={this.handleClick}
-        />
-        <JokeList
-          label="Bottom Ranked"
-          jokes={this.state.bottom}
-          handleClick={this.handleClick}
-        />
-        <JokeList
-          label="Random Selection"
-          jokes={this.state.jokes}
-          handleClick={this.handleClick}
-        />
-        <button onClick={this.getRandomJokes}>Get new jokes</button>
-      </StyledApp>
-    ) : (
-      <StyledApp>Loading...</StyledApp>
+    return (
+      <AppContainer>
+        {({ state, handleClick, getRandomJokes }) => {
+          return state.loaded ? (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <NewJokes onClick={getRandomJokes}>Get new jokes</NewJokes>
+              <StyledApp>
+                <div className="ranking">
+                  <JokeList
+                    label="Highest Rated"
+                    jokes={state.top}
+                    handleClick={handleClick}
+                  />
+                  <JokeList
+                    label="Bottom of the Barrel"
+                    jokes={state.bottom}
+                    handleClick={handleClick}
+                  />
+                </div>
+                <div className="random">
+                  <JokeList
+                    random
+                    loading={state.gettingJokes}
+                    label="Random Selection"
+                    jokes={state.jokes}
+                    handleClick={handleClick}
+                  />
+                </div>
+              </StyledApp>
+            </div>
+          ) : (
+            <Loading>Loading...</Loading>
+          );
+        }}
+      </AppContainer>
     );
   }
 }
-
 export default App;
