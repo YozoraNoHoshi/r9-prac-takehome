@@ -17,7 +17,8 @@ router.get('/', async function(req, res, next) {
 router.get('/random', async function(req, res, next) {
   try {
     // Get new set of jokes from API
-    let jokesFromAPI = await Joke.getJokes(req.query.amount);
+    let amount = req.query.amount || 20;
+    let jokesFromAPI = await Joke.getJokes(amount);
     await Joke.addManyJokesSelectively(jokesFromAPI);
     // Get all the jokes from local db
     let local = await Joke.getAllLocalJokes();

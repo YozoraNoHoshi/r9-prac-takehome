@@ -23,10 +23,11 @@ class Joke {
       });
       let { joke, id } = res.data;
       if (!jokes[id]) {
-        jokes[id] = joke;
+        jokes[id] = { joke, id, vote: 0 };
         counter += 1;
       }
     }
+    console.log(jokes);
     return jokes;
   }
 
@@ -42,11 +43,11 @@ class Joke {
 
   // Up/Down vote joke
   static async rateJoke(id, downvote) {
-    let dir = 'votes + 1';
-    if (downvote) dir = 'votes - 1';
+    let dir = 1;
+    if (downvote) dir = -1;
     const result = await db.query(
-      `UPDATE jokes WHERE id = $1 SET votes = $2 RETURNING *`,
-      [id, dir]
+      `UPDATE jokes SET votes = votes + $1 WHERE id = $2 RETURNING *`,
+      [dir, id]
     );
     return { [result.rows[0].id]: result.rows[0] };
   }
