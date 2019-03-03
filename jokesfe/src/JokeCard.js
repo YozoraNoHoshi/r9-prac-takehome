@@ -1,4 +1,16 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
+
+const StyledJokeCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 1px 1px 2px darkgray;
+  & > div {
+    display: flex;
+    flex-direction: row;
+  }
+`;
 
 class JokeCard extends PureComponent {
   voteUp = () => {
@@ -9,16 +21,23 @@ class JokeCard extends PureComponent {
   };
   render() {
     return (
-      <div className="JokeCard">
+      <StyledJokeCard>
         <div>{this.props.joke}</div>
-        <div>Current Score: {this.props.vote}</div>
-        <div onClick={this.voteUp}>Vote up</div>
-        <div onClick={this.voteDown}>Vote down</div>
-      </div>
+        <div>Current Score: {this.props.votes}</div>
+        <div>
+          <button onClick={this.voteUp}>Vote up</button>
+          <button onClick={this.voteDown}>Vote down</button>
+        </div>
+      </StyledJokeCard>
     );
   }
 }
 
-JokeCard.defaultProps = { joke: '', vote: 0, handleClick: console.log, id: '' };
+JokeCard.defaultProps = {
+  joke: '',
+  votes: 0,
+  handleClick: console.log,
+  id: ''
+};
 
 export default JokeCard;

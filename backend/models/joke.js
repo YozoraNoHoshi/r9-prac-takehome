@@ -27,7 +27,6 @@ class Joke {
         counter += 1;
       }
     }
-    console.log(jokes);
     return jokes;
   }
 

@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
 import { getRandomJokes, get5Jokes, voteJoke } from './api';
 import JokeList from './JokeList';
+import styled from 'styled-components';
 
+const StyledApp = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 90vh;
+  text-align: center;
+`;
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { jokes: {}, top: {}, bottom: {} };
+    this.state = { jokes: {}, top: {}, bottom: {}, loaded: false };
   }
   async componentDidMount() {
     await this.getRandomJokes();
     await this.get5Jokes();
+    this.setState({ loaded: true });
   }
 
   handleClick = async (id, direction) => {
@@ -38,13 +46,27 @@ class App extends Component {
   };
 
   render() {
-    return (
-      <div className="App">
-        <JokeList jokes={this.state.top} handleClick={this.handleClick} />
-        <JokeList jokes={this.state.bottom} handleClick={this.handleClick} />
-        <JokeList jokes={this.state.jokes} handleClick={this.handleClick} />
+    return this.state.loaded ? (
+      <StyledApp>
+        <JokeList
+          label="Top Ranked"
+          jokes={this.state.top}
+          handleClick={this.handleClick}
+        />
+        <JokeList
+          label="Bottom Ranked"
+          jokes={this.state.bottom}
+          handleClick={this.handleClick}
+        />
+        <JokeList
+          label="Random Selection"
+          jokes={this.state.jokes}
+          handleClick={this.handleClick}
+        />
         <button onClick={this.getRandomJokes}>Get new jokes</button>
-      </div>
+      </StyledApp>
+    ) : (
+      <StyledApp>Loading...</StyledApp>
     );
   }
 }
