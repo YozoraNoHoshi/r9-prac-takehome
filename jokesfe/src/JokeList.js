@@ -8,9 +8,28 @@ const StyledJokeList = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
+  background: lightgray;
+  border-radius: 25px;
+  & > .header {
+    background: darkgray;
+    font-size: 2em;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+  }
   & > div {
     text-align: center;
     width: 100%;
+  }
+`;
+
+const SplitRows = styled.div`
+  display: flex;
+  flex-direction: row;
+  & > div {
+    display: flex;
+    text-align: center;
+    width: 50%;
+    flex-direction: column;
   }
 `;
 class JokeList extends PureComponent {
@@ -33,12 +52,33 @@ class JokeList extends PureComponent {
     });
   };
   render() {
-    return (
-      <StyledJokeList>
-        <div>{this.props.label}</div>
-        {this.renderJokes(Object.values(this.props.jokes))}
-      </StyledJokeList>
-    );
+    if (this.props.random) {
+      let jokes = Object.values(this.props.jokes);
+      let mid = Math.ceil(jokes.length / 2);
+      return !this.props.loading ? (
+        <StyledJokeList>
+          <div className="header">{this.props.label}</div>
+          <SplitRows>
+            <div>{this.renderJokes(jokes.slice(0, mid))}</div>
+            <div>{this.renderJokes(jokes.slice(mid, jokes.length))}</div>
+          </SplitRows>
+        </StyledJokeList>
+      ) : (
+        <StyledJokeList>
+          <div className="header">{this.props.label}</div>
+          <SplitRows>
+            <div style={{ fontSize: '2em' }}>Getting jokes...</div>
+          </SplitRows>
+        </StyledJokeList>
+      );
+    } else {
+      return (
+        <StyledJokeList>
+          <div className="header">{this.props.label}</div>
+          {this.renderJokes(Object.values(this.props.jokes))}
+        </StyledJokeList>
+      );
+    }
   }
 }
 

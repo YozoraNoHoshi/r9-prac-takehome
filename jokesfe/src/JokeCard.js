@@ -5,16 +5,26 @@ const StyledJokeCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-shadow: 1px 1px 2px darkgray;
+  box-shadow: 1px 1px 2px black;
+  margin: 10px;
+  padding: 10px;
+  background: white;
   & > div {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
   & > div > button {
     padding: 5px;
     margin: 5px;
-    background-color: black;
     color: white;
+  }
+  & > div > .vote-down {
+    background-color: orangered;
+  }
+  & > div > .vote-up {
+    background-color: skyblue;
   }
 `;
 
@@ -29,10 +39,14 @@ class JokeCard extends PureComponent {
     return (
       <StyledJokeCard>
         <div>{this.props.joke}</div>
-        <div>Current Score: {this.props.votes}</div>
         <div>
-          <button onClick={this.voteUp}>Vote up</button>
-          <button onClick={this.voteDown}>Vote down</button>
+          <button className="vote-up" onClick={this.voteUp}>
+            Vote up
+          </button>
+          <button className="vote-down" onClick={this.voteDown}>
+            Vote down
+          </button>
+          <div>Current Score: {this.props.votes}</div>
         </div>
       </StyledJokeCard>
     );
