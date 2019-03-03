@@ -13,7 +13,7 @@ class AppContainer extends PureComponent {
     };
   }
   async componentDidMount() {
-    // await this.getRandomJokes();
+    await this.getRandomJokes();
     await this.get5Jokes();
     this.setState({ loaded: true });
   }

@@ -19,9 +19,10 @@ const StyledJokeCard = styled.div`
     padding: 5px;
     margin: 5px;
     color: white;
+    border-radius: 5px;
   }
   & > div > .vote-down {
-    background-color: orangered;
+    background-color: orange;
   }
   & > div > .vote-up {
     background-color: skyblue;
@@ -41,10 +42,10 @@ class JokeCard extends PureComponent {
         <div>{this.props.joke}</div>
         <div>
           <button className="vote-up" onClick={this.voteUp}>
-            Vote up
+            Hilarious!
           </button>
           <button className="vote-down" onClick={this.voteDown}>
-            Vote down
+            Booooo!
           </button>
           <div>Current Score: {this.props.votes}</div>
         </div>

@@ -17,6 +17,16 @@ const StyledApp = styled.div`
     width: 50%;
     margin: 1%;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+    & > div.ranking {
+      width: 95%;
+    }
+    & > div.random {
+      width: 95%;
+    }
+  }
 `;
 
 const NewJokes = styled.button`
