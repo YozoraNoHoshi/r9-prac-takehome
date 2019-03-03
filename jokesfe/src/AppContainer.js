@@ -13,10 +13,20 @@ class AppContainer extends PureComponent {
     };
   }
   async componentDidMount() {
+    let jokes = localStorage.getItem('jokes');
+    if (jokes) {
+      await this.get5Jokes();
+      this.setState({ jokes, loaded: true });
+      return;
+    }
     await this.getRandomJokes();
     await this.get5Jokes();
     this.setState({ loaded: true });
   }
+
+  sendToLocalStorage = () => {
+    localStorage.setItem('jokes', this.state.jokes);
+  };
 
   handleClick = async (id, direction) => {
     let votedJoke = await voteJoke(id, direction);
@@ -31,6 +41,7 @@ class AppContainer extends PureComponent {
         };
       });
     }
+    this.sendToLocalStorage();
   };
 
   get5Jokes = async () => {
@@ -42,7 +53,9 @@ class AppContainer extends PureComponent {
     this.setState({ gettingJokes: true });
     let jokes = await getRandomJokes(20);
     this.setState({ jokes, gettingJokes: false });
+    this.sendToLocalStorage();
   };
+
   render() {
     return this.props.children({
       state: this.state,
