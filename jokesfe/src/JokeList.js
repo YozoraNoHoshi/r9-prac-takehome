@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const StyledJokeList = styled.div`
   display: flex;
+  margin: 5px;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;

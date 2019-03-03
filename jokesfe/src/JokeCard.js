@@ -10,6 +10,12 @@ const StyledJokeCard = styled.div`
     display: flex;
     flex-direction: row;
   }
+  & > div > button {
+    padding: 5px;
+    margin: 5px;
+    background-color: black;
+    color: white;
+  }
 `;
 
 class JokeCard extends PureComponent {
