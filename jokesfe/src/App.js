@@ -8,16 +8,10 @@ const StyledApp = styled.div`
   display: flex;
   flex-direction: row;
   text-align: center;
-
-  & > div.ranking {
+  & > div.jokes {
     width: 50%;
     margin: 1%;
   }
-  & > div.random {
-    width: 50%;
-    margin: 1%;
-  }
-
   @media (max-width: 768px) {
     flex-direction: column-reverse;
     & > div.ranking {
@@ -61,7 +55,7 @@ class App extends Component {
             >
               <NewJokes onClick={getRandomJokes}>Get new jokes</NewJokes>
               <StyledApp>
-                <div className="ranking">
+                <div className="jokes">
                   <JokeList
                     label="Highest Rated"
                     jokes={state.top}
@@ -73,9 +67,9 @@ class App extends Component {
                     handleClick={handleClick}
                   />
                 </div>
-                <div className="random">
+                <div className="jokes">
                   <JokeList
-                    random
+                    large
                     loading={state.gettingJokes}
                     label="Random Selection"
                     jokes={state.jokes}

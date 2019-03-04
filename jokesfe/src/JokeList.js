@@ -52,7 +52,7 @@ class JokeList extends PureComponent {
     });
   };
   render() {
-    if (this.props.random) {
+    if (this.props.large) {
       let jokes = Object.values(this.props.jokes);
       let mid = Math.ceil(jokes.length / 2);
       return !this.props.loading ? (
@@ -82,7 +82,12 @@ class JokeList extends PureComponent {
   }
 }
 
-JokeList.defaultProps = { jokes: {}, label: '', handleClick: console.log };
+JokeList.defaultProps = {
+  jokes: {},
+  label: '',
+  handleClick: console.log,
+  large: false
+};
 
 JokeList.propTypes = {};
 

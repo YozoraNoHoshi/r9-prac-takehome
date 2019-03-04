@@ -65,8 +65,4 @@ class AppContainer extends PureComponent {
   }
 }
 
-AppContainer.defaultProps = {};
-
-AppContainer.propTypes = {};
-
 export default AppContainer;
