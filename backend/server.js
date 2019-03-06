@@ -1,5 +1,3 @@
-/** Start server for jobly. */
-
 const app = require('./app');
 const { PORT } = require('./config');
 
